@@ -1,0 +1,11 @@
+div#calendar{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  width: 80%;
+  height: 80vh;
+}
+
+div#calendar div:first-child{
+  grid-column: 7;
+}

@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
+import moment from 'moment';
+import { connect } from 'react-redux';
+
+import Calendar from './components/Calendar';
+import AddReminder from './containers/AddReminder';
+
 import './App.css';
 
-function App() {
+function App({modal}) {
+  const currentDate = moment();
+  const lastDay = currentDate.endOf('month').format('DD');
+  const days = Array.from(Array(+lastDay).keys()).map( d => d + 1);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {modal.opened === true ?
+        <AddReminder />
+        : null
+      }
+      <Calendar days={days} />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  modal: state.modal,
+})
+
+export default connect(mapStateToProps)(App);
