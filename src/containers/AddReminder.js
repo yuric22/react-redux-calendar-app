@@ -23,7 +23,6 @@ const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
 
     const cancel = e => {
         e.preventDefault();
-        console.log("cencelar called")
         closeModalWindow();
     }
 
@@ -33,7 +32,7 @@ const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
                 <label>Description</label>
                 <input id="description" ref={node => labelInput = node} />
                 <label>Time</label>
-                <input id="time" ref={node => timeInput = node} />
+                <input id="time" type="time" pattern="[0-9]{2}:[0-9]{2}" ref={node => timeInput = node} />
                 <label>Color</label>
                 <input id="color" type="color" ref={node => colorInput = node} />
                 <label>City</label>
