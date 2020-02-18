@@ -5,20 +5,22 @@ import { showModalWindow } from '../actions';
 import './Day.css';
 
 const Day = ({day, showModalWindow, reminders}) => {
-    const reminder = reminders.find(r => r.date === day);
-
     return (
         <div key={day}
-            className={!!reminder ? 'day reminder' : 'day'}
-            style={{backgroundColor: !!reminder ? reminder.color : 'unset'}}
+            className={'day'}
             onClick={() => showModalWindow(day)}>
-            <div>{day}</div>
+            <div className="day-header">{day}</div>
+            <div className="reminders-section">
+                {reminders.map((reminder, i) => (
+                    <div key={i} style={{backgroundColor: reminder.color}}>{reminder.label}</div>
+                ))}
+            </div>
         </div>
     );
 };
 
-const mapStateToProps = state => ({
-    reminders: state.reminders
+const mapStateToProps = (state, ownProps) => ({
+    reminders: state.reminders.filter(r => r.date === ownProps.day)
 });
 
 const mapDispatchToProps = dispatch => ({
