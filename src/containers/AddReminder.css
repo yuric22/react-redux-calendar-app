@@ -6,12 +6,13 @@ div#reminder{
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 
 div#reminder > form{
   width: 400px;
   opacity: 1;
-  padding: 40px;
+  padding: 0 20px 20px 40px;
   border: 1px solid darkgray;
   background-color: #FFF;
   display: flex;
@@ -40,4 +41,32 @@ div#reminder > form .validation-error{
   font-size: 14px;
   color: #AA0000;
   margin: 4px 0;
+}
+
+#buttons-section{
+  display: flex;
+  justify-content: flex-end;
+  align-self: end;
+  margin-top: 30px;
+}
+
+div#reminder button{
+  cursor: pointer;
+  border: 1px solid #4c81b5;
+  width: 160px;
+  text-transform: uppercase;
+  height: 40px;
+  background-color: #4c81b5;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+div#reminder button:hover{
+  opacity: 0.9;
+}
+
+div#reminder button#cancel{
+  color: #4c81b5;
+  background-color: white;
 }

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
+import moment from 'moment';
 import { addReminder, editReminder, closeModalWindow } from '../actions';
 
 import './AddReminder.css';
@@ -11,7 +12,9 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
     const [time, setTime] = useState((selectedReminder && selectedReminder.time) || '');
     const [city, setCity] = useState((selectedReminder && selectedReminder.city) || '');
 
-    if (selectedReminder && Number.isInteger(selectedReminder.id)){
+    const isEditing = () => selectedReminder && Number.isInteger(selectedReminder.id);
+
+    if (isEditing()){
         date = selectedReminder.date;
     }
 
@@ -61,7 +64,7 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
           return
         }
 
-        if (selectedReminder && Number.isInteger(selectedReminder.id)){
+        if (isEditing()){
             editReminder(selectedReminder.id, label.trim(), date, time, color, city.trim());
         }else{
             addReminder(label.trim(), date, time, color, city.trim());
@@ -77,6 +80,8 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
     return (
         <div id="reminder">
             <form onSubmit={submit}>
+                <h3>{`${isEditing() ? 'Edit Reminder' : 'Add Reminder'} - ${moment({day: date}).format('ll')}`}</h3>
+
                 <label>Label</label>
                 <input id="label" name="label" maxLength="30" onChange={change} value={label} />
                 {fieldsWithError.includes('label') ? <ValidationErrorMessage /> : null}
@@ -93,9 +98,9 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
                 <input id="city" name="city" onChange={change} value={city} />
                 {fieldsWithError.includes('city') ? <ValidationErrorMessage /> : null}
 
-                <div>
-                    <button type="submit">Add Remider</button>
-                    <button onClick={cancel}>Cancel</button>
+                <div id="buttons-section">
+                    <button id="cancel" onClick={cancel}>Cancel</button>
+                    <button type="submit">Save Remider</button>
                 </div>
             </form>
         </div>
