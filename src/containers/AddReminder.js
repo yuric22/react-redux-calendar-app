@@ -1,31 +1,57 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import { addReminder, closeModalWindow } from '../actions';
+import { addReminder, editReminder, closeModalWindow } from '../actions';
 
 import './AddReminder.css';
 
-const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
-    let labelInput, colorInput, timeInput, cityInput;
+const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selectedReminder}) => {
     const [fieldsWithError, setFieldsWithError] = useState([]);
+    const [label, setLabel] = useState((selectedReminder && selectedReminder.label) || '');
+    const [color, setColor] = useState((selectedReminder && selectedReminder.color) || '#DF0042');
+    const [time, setTime] = useState((selectedReminder && selectedReminder.time) || '');
+    const [city, setCity] = useState((selectedReminder && selectedReminder.city) || '');
 
-    //TODO implement edit feature
+    if (selectedReminder && Number.isInteger(selectedReminder.id)){
+        date = selectedReminder.date;
+    }
 
     const ValidationErrorMessage = () => <span className="validation-error">This field is required</span>;
 
     const validation = () => {
         const errors = [];
 
-        if (!labelInput.value.trim())
+        if (!label.trim())
             errors.push('label');
 
-        if (!timeInput.value)
+        if (!time)
             errors.push('time');
 
-        if (!cityInput.value.trim())
+        if (!city.trim())
             errors.push('city');
 
         setFieldsWithError([...errors]);
         return !errors.length;
+    }
+
+    const change = (e) => {
+        if (!e || !e.target || !e.target.name)
+            return;
+
+        switch(e.target.name){
+            case 'label':
+                setLabel(e.target.value);
+                break;
+            case 'color':
+                setColor(e.target.value);
+                break;
+            case 'time':
+                setTime(e.target.value);
+                break;
+            case 'city':
+                setCity(e.target.value);
+                break;
+            default:
+        }
     }
 
     const submit = e => {
@@ -35,7 +61,11 @@ const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
           return
         }
 
-        addReminder(labelInput.value.trim(), date, timeInput.value, colorInput.value, cityInput.value.trim());
+        if (selectedReminder && Number.isInteger(selectedReminder.id)){
+            editReminder(selectedReminder.id, label.trim(), date, time, color, city.trim());
+        }else{
+            addReminder(label.trim(), date, time, color, city.trim());
+        }
         closeModalWindow();
     }
 
@@ -48,19 +78,19 @@ const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
         <div id="reminder">
             <form onSubmit={submit}>
                 <label>Label</label>
-                <input id="label" maxLength="30" ref={node => labelInput = node} />
+                <input id="label" name="label" maxLength="30" onChange={change} value={label} />
                 {fieldsWithError.includes('label') ? <ValidationErrorMessage /> : null}
 
                 <label>Time</label>
-                <input id="time" type="time" pattern="[0-9]{2}:[0-9]{2}" ref={node => timeInput = node} />
+                <input id="time" name="time" type="time" onChange={change} value={time} pattern="[0-9]{2}:[0-9]{2}" />
                 {fieldsWithError.includes('time') ? <ValidationErrorMessage /> : null}
 
                 <label>Color</label>
-                <input id="color" type="color" ref={node => colorInput = node} />
+                <input id="color" name="color" onChange={change} type="color" value={color} />
                 {fieldsWithError.includes('color') ? <ValidationErrorMessage /> : null}
 
                 <label>City</label>
-                <input id="city" ref={node => cityInput = node} />
+                <input id="city" name="city" onChange={change} value={city} />
                 {fieldsWithError.includes('city') ? <ValidationErrorMessage /> : null}
 
                 <div>
@@ -74,11 +104,13 @@ const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
 
 const mapDispatchToProps = dispatch => ({
     addReminder: (label, date, time, color, city) => dispatch(addReminder({label, date, time, color, city})),
+    editReminder: (id, label, date, time, color, city) => dispatch(editReminder({id, label, date, time, color, city})),
     closeModalWindow: () => dispatch(closeModalWindow())
 });
 
 const mapStateToProps = state => ({
     date: state.modal.date,
+    selectedReminder: state.modal.selectedReminder
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddReminder);

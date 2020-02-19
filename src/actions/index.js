@@ -12,18 +12,19 @@ export const editReminder = reminder => ({
     reminder,
 });
 
-export const showModalWindow = (date) => ({
+export const showModalWindow = date => ({
     type: 'SHOW_REMINDER_MODAL_WINDOW',
     opened: true,
     date
+});
+
+export const showEditModalWindow = selectedReminder => ({
+    type: 'SHOW_EDIT_REMINDER_MODAL_WINDOW',
+    opened: true,
+    selectedReminder
 });
 
 export const closeModalWindow = () => ({
     type: 'CLOSE_REMINDER_MODAL_WINDOW',
     opened: false
 });
-
-export const ReminderWindowMode = {
-    OPENED: 'OPENED',
-    CLOSED: 'CLOSED',
-};

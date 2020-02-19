@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { showModalWindow } from '../actions';
+import { showModalWindow, showEditModalWindow } from '../actions';
 
 import './Day.css';
 import moment from 'moment';
 
-const Day = ({day, showModalWindow, reminders}) => {
+const Day = ({day, showModalWindow, showEditModalWindow, reminders}) => {
+    const editClick = (e, reminder) => {
+        e.stopPropagation();
+        showEditModalWindow(reminder);
+    }
 
     const orderedReminders = reminders.map(reminder => {
         const splitTime = reminder.time.split(':');
@@ -22,7 +26,11 @@ const Day = ({day, showModalWindow, reminders}) => {
             <div className="day-header">{day}</div>
             <div className="reminders-section">
                 {orderedReminders.map((reminder, i) => (
-                    <div key={i} style={{backgroundColor: reminder.color}}>{reminder.label}</div>
+                    <div key={i}
+                        style={{backgroundColor: reminder.color}}
+                        onClick={e => editClick(e, reminder)}>
+                            {reminder.label}
+                    </div>
                 ))}
             </div>
         </div>
@@ -34,7 +42,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    showModalWindow: (date) => dispatch(showModalWindow(date))
+    showModalWindow: date => dispatch(showModalWindow(date)),
+    showEditModalWindow: selectedReminder => dispatch(showEditModalWindow(selectedReminder)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Day);
