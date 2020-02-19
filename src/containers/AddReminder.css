@@ -21,10 +21,10 @@ div#reminder > form{
 
 div#reminder > form input{
   width: 280px;
-  margin-bottom: 20px;
 }
 
 div#reminder > form label{
+  margin-top: 20px;
   margin-bottom: 4px;
 }
 
@@ -34,4 +34,10 @@ div#reminder input#time{
 
 div#reminder input#color{
   width: 80px;
+}
+
+div#reminder > form .validation-error{
+  font-size: 14px;
+  color: #AA0000;
+  margin: 4px 0;
 }

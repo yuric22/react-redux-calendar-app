@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import { addReminder, closeModalWindow } from '../actions';
 
@@ -6,18 +6,36 @@ import './AddReminder.css';
 
 const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
     let labelInput, colorInput, timeInput, cityInput;
+    const [fieldsWithError, setFieldsWithError] = useState([]);
 
     //TODO implement edit feature
+
+    const ValidationErrorMessage = () => <span className="validation-error">This field is required</span>;
+
+    const validation = () => {
+        const errors = [];
+
+        if (!labelInput.value.trim())
+            errors.push('label');
+
+        if (!timeInput.value)
+            errors.push('time');
+
+        if (!cityInput.value.trim())
+            errors.push('city');
+
+        setFieldsWithError([...errors]);
+        return !errors.length;
+    }
 
     const submit = e => {
         e.preventDefault();
 
-        //TODO finish validation
-        if (!labelInput.value.trim()) {
+        if (!validation()) {
           return
         }
 
-        addReminder(labelInput.value, date, timeInput.value, colorInput.value, cityInput.value);
+        addReminder(labelInput.value.trim(), date, timeInput.value, colorInput.value, cityInput.value.trim());
         closeModalWindow();
     }
 
@@ -29,14 +47,21 @@ const AddReminder = ({date, addReminder, closeModalWindow, reminder}) => {
     return (
         <div id="reminder">
             <form onSubmit={submit}>
-                <label>Description</label>
-                <input id="description" ref={node => labelInput = node} />
+                <label>Label</label>
+                <input id="label" maxLength="30" ref={node => labelInput = node} />
+                {fieldsWithError.includes('label') ? <ValidationErrorMessage /> : null}
+
                 <label>Time</label>
                 <input id="time" type="time" pattern="[0-9]{2}:[0-9]{2}" ref={node => timeInput = node} />
+                {fieldsWithError.includes('time') ? <ValidationErrorMessage /> : null}
+
                 <label>Color</label>
                 <input id="color" type="color" ref={node => colorInput = node} />
+                {fieldsWithError.includes('color') ? <ValidationErrorMessage /> : null}
+
                 <label>City</label>
                 <input id="city" ref={node => cityInput = node} />
+                {fieldsWithError.includes('city') ? <ValidationErrorMessage /> : null}
 
                 <div>
                     <button type="submit">Add Remider</button>
