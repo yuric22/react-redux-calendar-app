@@ -5,18 +5,15 @@ import { addReminder, editReminder, closeModalWindow } from '../actions';
 
 import './AddReminder.css';
 
-const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selectedReminder}) => {
+const AddReminder = ({originalDate, addReminder, editReminder, closeModalWindow, selectedReminder}) => {
     const [fieldsWithError, setFieldsWithError] = useState([]);
     const [label, setLabel] = useState((selectedReminder && selectedReminder.label) || '');
     const [color, setColor] = useState((selectedReminder && selectedReminder.color) || '#DF0042');
     const [time, setTime] = useState((selectedReminder && selectedReminder.time) || '');
     const [city, setCity] = useState((selectedReminder && selectedReminder.city) || '');
+    const [date, setDate] = useState(originalDate || selectedReminder.date || '');
 
     const isEditing = () => selectedReminder && Number.isInteger(selectedReminder.id);
-
-    if (isEditing()){
-        date = selectedReminder.date;
-    }
 
     const ValidationErrorMessage = () => <span className="validation-error">This field is required</span>;
 
@@ -25,6 +22,9 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
 
         if (!label.trim())
             errors.push('label');
+
+        if (isEditing() && !date)
+            errors.push('date');
 
         if (!time)
             errors.push('time');
@@ -46,6 +46,9 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
                 break;
             case 'color':
                 setColor(e.target.value);
+                break;
+            case 'date':
+                setDate(e.target.value);
                 break;
             case 'time':
                 setTime(e.target.value);
@@ -86,6 +89,14 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
                 <input id="label" name="label" maxLength="30" onChange={change} value={label} />
                 {fieldsWithError.includes('label') ? <ValidationErrorMessage /> : null}
 
+                {isEditing() ?
+                    <>
+                        <label>Date</label>
+                        <input id="date" name="date" type="date" onChange={change} value={date} min="2020-02-01" max="2020-02-29"></input>
+                        {fieldsWithError.includes('date') ? <ValidationErrorMessage /> : null}
+                    </>
+                :null}
+
                 <label>Time</label>
                 <input id="time" name="time" type="time" onChange={change} value={time} pattern="[0-9]{2}:[0-9]{2}" />
                 {fieldsWithError.includes('time') ? <ValidationErrorMessage /> : null}
@@ -114,7 +125,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-    date: state.modal.date,
+    originalDate: state.modal.date,
     selectedReminder: state.modal.selectedReminder
 });
 
