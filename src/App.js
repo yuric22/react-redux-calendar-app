@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import { connect } from 'react-redux';
 
 import Calendar from './components/Calendar';
@@ -8,9 +9,8 @@ import AddReminder from './containers/AddReminder';
 import './App.css';
 
 function App({modal}) {
-  const currentDate = moment();
-  const lastDay = currentDate.endOf('month').format('DD');
-  const days = Array.from(Array(+lastDay).keys()).map( d => d + 1);
+  const moment = extendMoment(Moment);
+  const days = Array.from(moment.range('2020-01-26', '2020-02-29').by('day')).map(d => d.format('YYYY-MM-DD'));
 
   return (
     <div className="App">
@@ -18,6 +18,7 @@ function App({modal}) {
         <AddReminder />
         : null
       }
+      <h2>{`${moment().format('MMMM')} ${moment().format('YYYY')}`}</h2>
       <Calendar days={days} />
     </div>
   );

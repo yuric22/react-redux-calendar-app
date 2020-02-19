@@ -6,10 +6,6 @@ div#calendar{
   height: 80vh;
 }
 
-div#calendar div:nth-child(8){
-  grid-column: 7;
-}
-
 div#calendar .header{
   background-color: #2f73b5;
   border: 1px solid #2f73b5;

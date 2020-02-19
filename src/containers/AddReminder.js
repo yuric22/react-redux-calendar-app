@@ -80,7 +80,7 @@ const AddReminder = ({date, addReminder, editReminder, closeModalWindow, selecte
     return (
         <div id="reminder">
             <form onSubmit={submit}>
-                <h3>{`${isEditing() ? 'Edit Reminder' : 'Add Reminder'} - ${moment({day: date}).format('ll')}`}</h3>
+                <h3>{`${isEditing() ? 'Edit Reminder' : 'Add Reminder'} - ${moment(date, 'YYYY-MM-DD').format('ll')}`}</h3>
 
                 <label>Label</label>
                 <input id="label" name="label" maxLength="30" onChange={change} value={label} />

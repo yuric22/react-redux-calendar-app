@@ -26,6 +26,15 @@ div.day.weekend .day-header{
   color: #4c81b5;
 }
 
+div.day.not-current-month:hover{
+  cursor: initial;
+  background-color: transparent;
+}
+
+div.day.not-current-month .day-header{
+  color: #bbbbbb;
+}
+
 div.day:hover{
   background-color: #f9f9f9;
   cursor: pointer;

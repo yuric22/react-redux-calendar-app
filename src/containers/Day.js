@@ -19,14 +19,22 @@ const Day = ({day, showModalWindow, showEditModalWindow, reminders}) => {
         }
     }).sort((a, b) => a.dateTime.isBefore(b.dateTime, 'hour') ? -1 : 1);
 
-    const weekday = moment({day: day}).day();
+    const momentDay = moment(day, 'YYYY-MM-DD');
+    const weekday = momentDay.day();
     const isWeekend =  weekday === 6 || weekday === 0;
+    const isNotCurrentMonth = !moment().isSame(momentDay, 'month');
+
+    let className = 'day';
+    if (isWeekend)
+        className += ' weekend';
+    if (isNotCurrentMonth)
+        className += ' not-current-month';
 
     return (
         <div key={day}
-            className={isWeekend ? 'day weekend' : 'day'}
-            onClick={() => showModalWindow(day)}>
-            <div className="day-header">{day}</div>
+            className={className}
+            onClick={() => !isNotCurrentMonth && showModalWindow(day)}>
+            <div className="day-header">{momentDay.format('DD')}</div>
             <div className="reminders-section">
                 {orderedReminders.map((reminder, i) => (
                     <div key={i}
