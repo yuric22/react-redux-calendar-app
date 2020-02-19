@@ -19,9 +19,12 @@ const Day = ({day, showModalWindow, showEditModalWindow, reminders}) => {
         }
     }).sort((a, b) => a.dateTime.isBefore(b.dateTime, 'hour') ? -1 : 1);
 
+    const weekday = moment({day: day}).day();
+    const isWeekend =  weekday === 6 || weekday === 0;
+
     return (
         <div key={day}
-            className='day'
+            className={isWeekend ? 'day weekend' : 'day'}
             onClick={() => showModalWindow(day)}>
             <div className="day-header">{day}</div>
             <div className="reminders-section">

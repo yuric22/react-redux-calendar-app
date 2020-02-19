@@ -54,8 +54,8 @@ div#reminder button{
   cursor: pointer;
   border: 1px solid #4c81b5;
   width: 160px;
-  text-transform: uppercase;
   height: 40px;
+  text-transform: uppercase;
   background-color: #4c81b5;
   color: white;
   font-weight: bold;
