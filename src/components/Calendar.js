@@ -7,6 +7,13 @@ import './Calendar.css';
 
 const Calendar = ({days}) => (
     <div id="calendar">
+        <div className="header">Sunday</div>
+        <div className="header">Monday</div>
+        <div className="header">Tuesday</div>
+        <div className="header">Wednesday</div>
+        <div className="header">Thursday</div>
+        <div className="header">Friday</div>
+        <div className="header">Saturday</div>
         {days.map(day =>(
             <Day key={day} day={day} />
         ))}

@@ -21,7 +21,7 @@ const Day = ({day, showModalWindow, showEditModalWindow, reminders}) => {
 
     return (
         <div key={day}
-            className={'day'}
+            className='day'
             onClick={() => showModalWindow(day)}>
             <div className="day-header">{day}</div>
             <div className="reminders-section">
