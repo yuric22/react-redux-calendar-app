@@ -7,7 +7,7 @@ import { addReminder, editReminder, closeModalWindow } from '../actions';
 import loadingGif from './loading.gif';
 import './AddReminder.css';
 
-const AddReminder = ({originalDate, addReminder, editReminder, closeModalWindow, selectedReminder}) => {
+export const AddReminder = ({originalDate, addReminder, editReminder, closeModalWindow, selectedReminder}) => {
     const [fieldsWithError, setFieldsWithError] = useState([]);
     const [label, setLabel] = useState((selectedReminder && selectedReminder.label) || '');
     const [color, setColor] = useState((selectedReminder && selectedReminder.color) || '#DF0042');
@@ -127,7 +127,7 @@ const AddReminder = ({originalDate, addReminder, editReminder, closeModalWindow,
         e.preventDefault();
 
         if (!validation()) {
-          return
+            return
         }
 
         if (isEditing()){
