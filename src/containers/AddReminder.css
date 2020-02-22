@@ -9,22 +9,45 @@ div#reminder{
   z-index: 100;
 }
 
-div#reminder > form{
+div#reminder .window .header{
+  display: flex;
+  justify-content: space-between;
+}
+
+div#reminder .window .header .weather-forecast{
+  padding: 12px;
+  text-align: center;
+}
+
+div#reminder .window .header .weather-forecast > *{
+  margin: 0;
+  text-transform: uppercase;
+}
+
+div#reminder .window .header img.loading{
+  width: 50px;
+  height: 50px;
+}
+
+div#reminder > .window{
   width: 400px;
   opacity: 1;
   padding: 0 20px 20px 40px;
   border: 1px solid darkgray;
   background-color: #FFF;
+}
+
+div#reminder > .window > form{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-div#reminder > form input{
+div#reminder > .window input{
   width: 280px;
 }
 
-div#reminder > form label{
+div#reminder > .window label{
   margin-top: 20px;
   margin-bottom: 4px;
 }
@@ -37,7 +60,7 @@ div#reminder input#color{
   width: 80px;
 }
 
-div#reminder > form .validation-error{
+div#reminder > .window .validation-error{
   font-size: 14px;
   color: #AA0000;
   margin: 4px 0;

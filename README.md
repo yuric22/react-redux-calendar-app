@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Assets Licenses
+
+Open source Loading GIF Icons Vol-1 by Hassan Alkhateeb is licensed under CC BY-NC-ND 4.0
+
+## Weather Forecast Feature
+
+For the reminder weather forecast to work, the application needs a `.env.local` file in the project's root containing the variable `REACT_APP_WEATHER_API_ID` set with an API key from [Open Weather Map​](https://openweathermap.org/).
+
 ## Available Scripts
 
 In the project directory, you can run:
